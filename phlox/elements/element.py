@@ -55,3 +55,9 @@ class Element:
                     if key not in child.attrs and key not in self.non_inheritable_attrs:
                         child.attrs[key] = self.attrs[key]
                 child.inherit_attrs()
+
+    @property
+    def style_attrs(self):
+        attrs = self.attrs.copy()
+        attrs.update(self.style_table.get(self.tag, {}))
+        return attrs
