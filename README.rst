@@ -5,5 +5,14 @@ TRML
 .. image:: ./images/example1.png
     :alt: Screenshot of styled text in terminal
 
-.. literalinclude:: 
-   :language: python
+
+.. code_block:: bash
+   phlox --dir example
+
+.. literalinclude:: example/index.trml
+   :language: xml
+
+.. literalinclude:: example/style.tss
+   :language: css
+
+.. literalinclude:: example/script.ps
