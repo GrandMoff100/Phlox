@@ -11,7 +11,7 @@ def is_hex(string):
 
 
 class Color(TRMLStyle):
-    tag = 'color'
+    tag = 'text'
 
     def style(self):
         color_head = ''

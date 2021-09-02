@@ -6,6 +6,7 @@ class Element:
         'class',
         'id'
     ]
+    styleable = True
 
     def __init__(self, attrs=None, children=None, text=None):
         if attrs is None:

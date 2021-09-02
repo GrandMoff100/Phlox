@@ -1,10 +1,9 @@
 from ..ply import lex
+from ..elements import Element
 
-EXCLUDE_REGEX = r'[^\.:;{}\n\t ]'
 
 
 class Lexer:
-    # precedence = ()
 
     tokens = (
         'STYLE_TARGET',
@@ -15,10 +14,17 @@ class Lexer:
         'STYLE_START'
     )
 
+    @staticmethod
+    def t_STYLETARGET(tok):
+        '''([^:;{}\n\t ]+)'''
+        for tag, cls in Element.element_tags().items():
+            if cls.styleable:
+                if tok.value == tag or tok.value.startswith(tag + '.'):
+                    tok.type = 'STYLE_TARGET'
+                    return tok
+        tok.type = 'STRING'
+        return tok
 
-
-    t_STRING = rf'{EXCLUDE_REGEX}+'
-    t_STYLE_TARGET = rf'({t_STRING}\.?)+'
     t_STYLE_START = r'{'
     t_STYLE_END = r'}'
     t_PAIR_SEP = ':'
