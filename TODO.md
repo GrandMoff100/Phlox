@@ -1,4 +1,9 @@
 # TODO
+A markdown file of all that needs to be done for the project in the near future.
+
+## Maintainer
+- [ ] Add contributing.md
+- [ ] Add sphinx docs
 
 ## Features
 - [ ] Add resource mounting (remote and local)
@@ -11,5 +16,8 @@
 - [ ] Add individual element styling from style_rule
 
 ## Bugs
+No bugs yet.
+
 
 ## Completed
+I have not completed anything since making this todo yet :/
