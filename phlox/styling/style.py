@@ -3,16 +3,25 @@ from .parser import Parser
 
 
 def parse(string):
-    parser = Parser.parser()
-    return parser.parse(string)
+    parser = Parser.parser(debug=False)
+    return parser.parse(
+        string,
+        lexer=Parser.lexer(
+            debug=False
+        )
+    )
 
 
 class Style(Element):
     tag = 'style'
+    styleable = False
 
-    def style(self):
-        if self.children:
-            text, *_ = self.children
+    def style(self, *args, **kwargs):
+        if self.text:
+            yield self.text
+        elif self.children:
+            elem, *_ = self.children
+            text, *_ = elem.style(*args, **kwargs)
             style_table = parse(text)
-            Element.style_table.update(style_table)
-        yield ''
+            for tag, style in style_table.items():
+                Element.style_table[tag].update(style)

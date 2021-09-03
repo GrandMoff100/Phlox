@@ -1,8 +1,12 @@
 from .elements.parser import Parser
 
 
-def style(string):
+def render(string):
     parser = Parser.parser()
     page = parser.parse(string, lexer=Parser.lexer())
-    elements = page.style()
-    return ''.join(elements)
+
+    for _ in page.style(dry=True):
+        pass
+
+    content = ''.join(page.style())
+    return content

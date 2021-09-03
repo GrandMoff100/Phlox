@@ -6,8 +6,7 @@ TRML
     :alt: Screenshot of styled text in terminal
 
 
-.. code_block:: bash
-   phlox --dir example
+    phlox-server --path example
 
 .. literalinclude:: example/index.trml
    :language: xml
