@@ -1,0 +1,17 @@
+<page><text color="black" on="red"><bold>My black on red bold text</bold></text><style>
+
+.div {
+    background: black;
+}
+
+.div {
+    margin: 33px;
+}
+
+</style><style>
+
+.div {
+    padding: 23px;
+}
+
+</style></page>

@@ -20,7 +20,7 @@ class Element:
         self.text = text
 
     def __repr__(self):
-        return f'<TRMLStyle type={self.tag} children={len(self.children)}>'
+        return f'<TRMLElement type={self.tag} children={len(self.children)} is_text={bool(self.text)}>'
 
     @staticmethod
     def create_element(tag, attrs=None, children=None):
@@ -58,7 +58,7 @@ class Element:
                 child.inherit_attrs()
 
     @property
-    def style_attrs(self):
+    def element_styles(self):
         attrs = self.attrs.copy()
         attrs.update(self.style_table.get(self.tag, {}))
         return attrs

@@ -13,10 +13,14 @@ class Parser(Lexer):
     @staticmethod
     def p_stylesheet(p):
         '''stylesheet : stylesheet style
-                      | style'''
-        p[0] = p[1]
-        if len(p) > 2:
-            p[0].update(p[2])
+                      | style
+                      | '''
+        if len(p) > 1:
+            p[0] = p[1]
+            if len(p) > 2:
+                p[0].update(p[2])
+        else:
+            p[0] = {}
 
     @staticmethod
     def p_style(p):
