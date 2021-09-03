@@ -1,12 +1,16 @@
+from collections import defaultdict
+
+
 class Element:
-    style_table = {}
+    style_table = defaultdict(dict)
+
     tag = None
+    styleable = True
     default_attrs = None
-    non_inheritable_attrs = [
+    non_inheritable_attrs = (
         'class',
         'id'
-    ]
-    styleable = True
+    )
 
     def __init__(self, attrs=None, children=None, text=None):
         if attrs is None:
@@ -27,7 +31,7 @@ class Element:
         cls = Element.element_tags().get(tag, Element)
         return cls(attrs=attrs, children=children)
 
-    def style(self):
+    def style(self, *args, **kwargs):
         if self.text:
             yield self.text
         else:
@@ -36,8 +40,7 @@ class Element:
                 if isinstance(child, str):
                     yield child
                 elif isinstance(child, Element):
-                    yield from child.style()
-
+                    yield from child.style(*args, **kwargs)
 
     @staticmethod
     def registered_elements():
@@ -57,8 +60,16 @@ class Element:
                         child.attrs[key] = self.attrs[key]
                 child.inherit_attrs()
 
-    @property
-    def element_styles(self):
-        attrs = self.attrs.copy()
-        attrs.update(self.style_table.get(self.tag, {}))
-        return attrs
+    def style_rule(self):
+        key = self.style_key()
+        return Element.style_table.get(key)
+    
+    def style_key(self):
+        def segments():
+            if self.tag:
+                yield self.tag
+            if self.attrs.get('class'):
+                yield self.attrs.get('class')
+        return tuple(segments())
+
+    

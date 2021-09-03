@@ -6,7 +6,7 @@ class Hidden(Element):
 
     def style(self):
         if self.attrs.get('hidden', 'true') == 'true':
-            content = ''.join(super().style())
+            content = ''.join(super().style(*args, **kwargs))
             for i, char in enumerate(content):
                 if char not in '\n':
                     yield ' '

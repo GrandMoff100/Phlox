@@ -2,13 +2,6 @@ from .lexer import Lexer
 from ..ply import yacc
 
 
-def nested_place(iterable, value):
-    if iterable:
-        key, *iterable = iterable
-        return {key: nested_place(iterable, value)}
-    return value
-
-
 class Parser(Lexer):
     @staticmethod
     def p_stylesheet(p):
@@ -25,10 +18,7 @@ class Parser(Lexer):
     @staticmethod
     def p_style(p):
         '''style : STYLE_TARGET STYLE_START style_lines STYLE_END'''
-        p[0] = nested_place(
-            p[1].split('.'),
-            dict(p[3])
-        )
+        p[0] = {tuple(p[1].split('.')): dict(p[3])}
 
     @staticmethod
     def p_style_lines(p):
@@ -46,6 +36,7 @@ class Parser(Lexer):
     
     @staticmethod
     def p_error(p):
+        # TODO: Added extensive error reporting system to setup error logging to a relative user log file
         pass
 
     @staticmethod

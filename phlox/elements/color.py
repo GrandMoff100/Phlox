@@ -13,7 +13,7 @@ def is_hex(string):
 class Color(TRMLStyle):
     tag = 'text'
 
-    def style(self):
+    def style(self, *args, **kwargs):
         color_head = ''
         if color := self.attrs.get('color', None):
             if color.upper() in dir(Fore):
@@ -28,6 +28,6 @@ class Color(TRMLStyle):
                 color_head += bg(on)
 
         yield color_head
-        yield from super().style()
+        yield from super().style(*args, **kwargs)
         yield Fore.RESET
         yield Back.RESET

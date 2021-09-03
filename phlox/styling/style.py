@@ -1,6 +1,5 @@
 from ..elements import Element
 from .parser import Parser
-from ..util import nested_update
 
 
 def parse(string):
@@ -17,13 +16,12 @@ class Style(Element):
     tag = 'style'
     styleable = False
 
-    def style(self):
-        if self.children:
+    def style(self, *args, **kwargs):
+        if self.text:
+            yield self.text
+        elif self.children:
             elem, *_ = self.children
-            text, *_ = elem.style()
+            text, *_ = elem.style(*args, **kwargs)
             style_table = parse(text)
-            Element.style_table = nested_update(
-                Element.style_table,
-                style_table
-            )
-        yield ''
+            for tag, style in style_table.items():
+                Element.style_table[tag].update(style)

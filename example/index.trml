@@ -1,16 +1,18 @@
-<page><text color="black" on="red"><bold>My black on red bold text</bold></text><style>
+<page><text color="black" on="red"><bold>My black on red bold text</bold></text><div>
+My div
+</div><style>
 
-.div {
+div {
     background: black;
 }
 
-.div {
+div {
     margin: 33px;
 }
 
 </style><style>
 
-.div {
+div.myclass {
     padding: 23px;
 }
 

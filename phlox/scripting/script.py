@@ -5,5 +5,5 @@ class Script(Element):
     tag = 'script'
     styleable = False
 
-    def style(self):
-        yield from super().style()
+    def style(self, *args, dry=False, **kwargs):
+        yield from super().style(*args, **kwargs)
