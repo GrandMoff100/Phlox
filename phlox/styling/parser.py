@@ -33,7 +33,7 @@ class Parser(Lexer):
     def p_style_line(p):
         '''style_line : STRING PAIR_SEP STRING LINE_SUFFIX'''
         p[0] = [(p[1], p[3])]
-    
+
     @staticmethod
     def p_error(p):
         # TODO: Added extensive error reporting system to setup error logging to a relative user log file

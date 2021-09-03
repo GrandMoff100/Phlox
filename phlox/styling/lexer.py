@@ -2,9 +2,7 @@ from ..ply import lex
 from ..elements import Element
 
 
-
 class Lexer:
-
     tokens = (
         'STYLE_TARGET',
         'STRING',

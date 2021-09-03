@@ -63,7 +63,7 @@ class Element:
     def style_rule(self):
         key = self.style_key()
         return Element.style_table.get(key)
-    
+
     def style_key(self):
         def segments():
             if self.tag:
@@ -71,5 +71,3 @@ class Element:
             if self.attrs.get('class'):
                 yield self.attrs.get('class')
         return tuple(segments())
-
-    
