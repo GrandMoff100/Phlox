@@ -1,5 +1,6 @@
 from .lexer import Lexer
 from ..ply import yacc
+from ..utils import nested_update
 
 
 class Parser(Lexer):
@@ -8,17 +9,18 @@ class Parser(Lexer):
         '''stylesheet : stylesheet style
                       | style
                       | '''
-        if len(p) > 1:
-            p[0] = p[1]
-            if len(p) > 2:
-                p[0].update(p[2])
+        if len(p) > 2:
+            p[0] = nested_update(p[1], p[2])
         else:
-            p[0] = {}
+            p[0] = p[1]
 
     @staticmethod
     def p_style(p):
         '''style : STYLE_TARGET STYLE_START style_lines STYLE_END'''
-        p[0] = {tuple(p[1].split('.')): dict(p[3])}
+        args = p[1].split('.')
+        default = ['page', 'default', 'normal']
+        tag, class_, state, *_ = args + default[len(args) - len(default):]
+        p[0] = {tag: {class_: {state: dict(p[3])}}}
 
     @staticmethod
     def p_style_lines(p):

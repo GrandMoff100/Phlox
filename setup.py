@@ -7,7 +7,12 @@ setup(
     author_email="nlarsen23.student@gmail.com",
     version="0.0.0",
     packages=["trml"],
-    install_requires=["colorama", "termcolor", "colored"],
+    install_requires=[
+        "colorama",
+        "termcolor",
+        "colored",
+        "click"
+    ],
     description="Terminal Rendering Markup Language",
     long_description=open("README.md").read(),
     long_description_content_type='text/markdown'

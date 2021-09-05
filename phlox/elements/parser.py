@@ -17,10 +17,7 @@ class Parser(Lexer):
     @staticmethod
     def p_page(p):
         '''page : elements'''
-        if len(p[1]) > 1:
-            p[0] = Element(children=p[1])
-        else:
-            p[0] = p[1][0]
+        p[0] = Element(children=p[1])
 
     @staticmethod
     def p_elements(p):
@@ -41,7 +38,7 @@ class Parser(Lexer):
             kwargs = parse_tag_arguments(p[1])
             p[0] = Element.create_element(**kwargs, children=p[2])
         else:
-            p[0] = Element(text=p[1])
+            p[0] = p[1]
 
     @staticmethod
     def parser():
