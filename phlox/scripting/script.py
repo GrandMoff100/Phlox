@@ -2,6 +2,10 @@ from ..elements import Element
 from .parser import Parser
 
 
+def parse(string):
+    pass
+
+
 class Script(Element):
     tag = 'script'
 
