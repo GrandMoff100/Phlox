@@ -32,4 +32,3 @@ class Document:
 
     def get_elements_by_class(self, class_):
         pass
-
