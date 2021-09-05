@@ -7,13 +7,7 @@ on:
     types:
       - opened
       - synchronize
-  
-  pull_request:
-    paths:
-      - '*.py'
-    types:
-      - opened
-      - synchronize
+
   push:
     paths:
       - '*.py'
