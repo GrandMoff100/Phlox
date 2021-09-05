@@ -14,14 +14,10 @@ def parse(string):
 
 class Style(Element):
     tag = 'style'
-    styleable = False
 
     def style(self, *args, **kwargs):
-        if self.text:
-            yield self.text
-        elif self.children:
-            elem, *_ = self.children
-            text, *_ = elem.style(*args, **kwargs)
-            style_table = parse(text)
-            for tag, style in style_table.items():
-                Element.style_table[tag].update(style)
+        if self.children:
+            string, *_ = self.children
+            new_table = parse(string)
+            Element.style_table.update(new_table)
+        yield ''

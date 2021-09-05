@@ -1,18 +1,18 @@
-from collections import defaultdict
+from ..utils import StyleTable
 
 
 class Element:
-    style_table = defaultdict(dict)
+    style_table = StyleTable()
 
     tag = None
-    styleable = True
     default_attrs = None
+
     non_inheritable_attrs = (
         'class',
         'id'
     )
 
-    def __init__(self, attrs=None, children=None, text=None):
+    def __init__(self, attrs=None, children=None):
         if attrs is None:
             attrs = {}
             if self.default_attrs:
@@ -21,10 +21,9 @@ class Element:
             children = []
         self.attrs = attrs
         self.children = children
-        self.text = text
 
     def __repr__(self):
-        return f'<TRMLElement type={self.tag} children={len(self.children)} is_text={bool(self.text)}>'
+        return f'<TRMLElement type={self.tag} children={len(self.children)}>'
 
     @staticmethod
     def create_element(tag, attrs=None, children=None):
@@ -32,15 +31,12 @@ class Element:
         return cls(attrs=attrs, children=children)
 
     def style(self, *args, **kwargs):
-        if self.text:
-            yield self.text
-        else:
-            self.inherit_attrs()
-            for child in self.children:
-                if isinstance(child, str):
-                    yield child
-                elif isinstance(child, Element):
-                    yield from child.style(*args, **kwargs)
+        self.inherit_attrs()
+        for child in self.children:
+            if isinstance(child, str):
+                yield child
+            elif isinstance(child, Element):
+                yield from child.style(*args, **kwargs)
 
     @staticmethod
     def registered_elements():
@@ -55,19 +51,10 @@ class Element:
     def inherit_attrs(self):
         if self.children:
             for child in self.children:
+                if isinstance(child, str):
+                    continue
                 for key in self.attrs:
                     if key not in child.attrs and key not in self.non_inheritable_attrs:
                         child.attrs[key] = self.attrs[key]
                 child.inherit_attrs()
 
-    def style_rule(self):
-        key = self.style_key()
-        return Element.style_table.get(key)
-
-    def style_key(self):
-        def segments():
-            if self.tag:
-                yield self.tag
-            if self.attrs.get('class'):
-                yield self.attrs.get('class')
-        return tuple(segments())

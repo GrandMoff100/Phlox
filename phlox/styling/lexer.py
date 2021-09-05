@@ -16,7 +16,7 @@ class Lexer:
     def t_STYLETARGET(tok):
         '''([^:;{}\n\t ]+)'''
         for tag, cls in Element.element_tags().items():
-            if cls.styleable:
+            if cls:
                 if tok.value == tag or tok.value.startswith(tag + '.'):
                     tok.type = 'STYLE_TARGET'
                     return tok
