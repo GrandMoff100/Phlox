@@ -1,4 +1,5 @@
 from ..elements import Element
+from .parser import Parser
 
 
 class Script(Element):
