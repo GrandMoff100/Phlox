@@ -24,7 +24,7 @@ def build_user_agent():
 
 class Requester:
     cookies = {
-        'User-Agent': build_user_agent() 
+        'User-Agent': build_user_agent()
     }
 
     def request(self, uri):
@@ -43,9 +43,9 @@ class Requester:
             except (
                 UnicodeDecodeError,
                 UnicodeError
-                ):
-                    with open(path, 'rb') as f:
-                        return f.read()
+            ):
+                with open(path, 'rb') as f:
+                    return f.read()
         except (
             OSError,
             IOError,
@@ -54,7 +54,6 @@ class Requester:
             SystemError
         ) as err:
             print(err, 'reading resource from', str(path))
-        
 
     def get(self, resource):
         path = Path(resource)

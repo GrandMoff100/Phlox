@@ -13,7 +13,7 @@ class Resource(Element):
     }
     handlers = {
         'stylesheet': handle_stylesheet,
-        'script': handler_script
+        'script': handle_script
     }
 
     def __init__(self, *args, **kwargs):

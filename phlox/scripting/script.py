@@ -1,5 +1,5 @@
 from ..elements import Element
-from .parser import Parser
+#  from .parser import Parser
 
 
 def parse(string):

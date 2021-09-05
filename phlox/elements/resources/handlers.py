@@ -10,4 +10,6 @@ def handle_stylesheet(browser, src):
 
 
 def handle_script(browser, src):
-    pass
+    content = browser.requester.get(src)
+    script = parse_script(content)
+    return script
