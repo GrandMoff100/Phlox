@@ -1,5 +1,8 @@
 import sys
-import requests
+import aiofiles
+import aiohttp
+
+from aioconsole import aprint
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -22,30 +25,32 @@ def build_user_agent():
     )
 
 
-class Requester:
+class ResourceFetcher:
     cookies = {
         'User-Agent': build_user_agent()
     }
 
-    def request(self, uri):
-        resp = requests.get(
-            uri,
-            cookies=self.cookies
-        )
-        # TODO: Log request and response code
-        return resp.content
+    def __init__(self, cwd, env):
+        self.env = env
+        self.cwd = cwd
 
-    def read_file(self, path):
+    async def request(self, uri):
+        async with aiohttp.ClientSession(cookies=self.cookies) as session:
+            async with session.get(uri) as response:
+                # TODO: Log request and response code
+                return await response.read()
+
+    async def read_file(self, path):
         try:
             try:
-                with open(path, 'r') as f:
-                    return f.read()
+                async with aiofiles.open(path, 'r') as f:
+                    return await f.read()
             except (
                 UnicodeDecodeError,
                 UnicodeError
             ):
-                with open(path, 'rb') as f:
-                    return f.read()
+                with aiofiles.open(path, 'rb') as f:
+                    return await f.read()
         except (
             OSError,
             IOError,
@@ -53,17 +58,18 @@ class Requester:
             FileNotFoundError,
             SystemError
         ) as err:
-            print(err, 'reading resource from', str(path))
+            await aprint(err, 'reading resource from', str(path))
 
-    def get(self, resource):
-        path = Path(resource)
-        if path.exists():
-            return self.read_file(path)
+    async def get(self, resource):
+        if (path := Path(self.cwd, resource)).exists():
+            return await self.read_file(path)
+        elif (path := Path(resource)).exists():
+            return await self.read_file(path)
         elif urlparse(resource).scheme.startswith('http'):
-            return self.request(resource)
+            return await self.request(resource)
         else:
-            return ''
+            return b''
 
 
 class Browser:
-    requester = Requester()
+    fetcher = ResourceFetcher()

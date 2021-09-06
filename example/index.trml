@@ -1,5 +1,5 @@
 <page><text color="black" on="red"><bold>My black on red bold text</bold></text><div>
-My div
+My div<br/>
 </div><style>
 
 div {
@@ -16,4 +16,15 @@ div.myclass {
     padding: 23px;
 }
 
-</style></page>
+</style><script>
+
+
+</script>
+
+<line></line>
+
+<abc/>
+
+<resource type="stylesheet" src="script.ps"></resource>
+
+</page>

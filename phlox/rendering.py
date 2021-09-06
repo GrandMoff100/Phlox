@@ -1,13 +1,18 @@
+import aioconsole
 from .elements.parser import Parser
 
 
-def render(string):
+def makepage(string):
     parser = Parser.parser()
-    page = parser.parse(string, lexer=Parser.lexer())
+    return parser.parse(string, lexer=Parser.lexer())
 
-    for _ in page.style(dry=True, browser=None):
-        pass
 
-    content = ''.join(page.style())
-
-    return content
+async def render(string, browser=None):
+    content = ''
+    page = makepage(string)
+    if page:
+        async for _ in page.style(dry=True, browser=browser):
+            pass
+        yields = [text async for text in page.style()]
+        content = ''.join(yields)
+    await aioconsole.aprint(repr(content))

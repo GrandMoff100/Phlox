@@ -1,8 +1,8 @@
 from .element import Element
 
 
-class LineDivider(Element):
-    tag = 'line'
+class Break(Element):
+    tag = 'br'
 
     async def style(self, *args, **kwargs):
-        yield ''
+        yield '\n'

@@ -30,13 +30,14 @@ class Element:
         cls = Element.element_tags().get(tag, Element)
         return cls(attrs=attrs, children=children)
 
-    def style(self, *args, **kwargs):
-        self.inherit_attrs()
+    async def style(self, *args, **kwargs):
+        await self.inherit_attrs()
         for child in self.children:
             if isinstance(child, str):
                 yield child
             elif isinstance(child, Element):
-                yield from child.style(*args, **kwargs)
+                async for text in child.style(*args, **kwargs):
+                    yield text
 
     @staticmethod
     def registered_elements():
@@ -48,7 +49,7 @@ class Element:
     def element_tags():
         return {subclass.tag: subclass for subclass in Element.registered_elements()}
 
-    def inherit_attrs(self):
+    async def inherit_attrs(self):
         if self.children:
             for child in self.children:
                 if isinstance(child, str):
@@ -56,4 +57,4 @@ class Element:
                 for key in self.attrs:
                     if key not in child.attrs and key not in self.non_inheritable_attrs:
                         child.attrs[key] = self.attrs[key]
-                child.inherit_attrs()
+                await child.inherit_attrs()

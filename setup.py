@@ -26,8 +26,12 @@ setup(
         "colorama",
         "termcolor",
         "colored",
-        "click",
-        "requests"
+        "asyncclick",
+        "aiodns",
+        "cchardet",
+        "aiohttp",
+        "aiofiles",
+        "aioconsole"
     ],
     description=__description__,
     long_description=open("README.md").read(),

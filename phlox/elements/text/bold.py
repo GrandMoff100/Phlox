@@ -6,7 +6,8 @@ from ..element import Element
 class Bold(Element):
     tag = 'bold'
 
-    def style(self, *args, **kwargs):
+    async def style(self, *args, **kwargs):
         yield Style.BRIGHT
-        yield from super().style(*args, **kwargs)
+        async for text in super().style(*args, **kwargs):
+            yield text
         yield Style.NORMAL
