@@ -16,10 +16,7 @@ class Resource(Element):
         'script': handle_script
     }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def style(self, *args, browser=None, dry=False, **kwargs):
+    async def style(self, *args, browser=None, dry=False, **kwargs):
         if (src := self.attrs.get('src')):
             if (_type := self.attrs.get('type')) is None:
                 for ext, value in self.types.items():
@@ -29,7 +26,7 @@ class Resource(Element):
             if _type is not None:
                 handler = self.handlers.get(_type, self.handler_not_found)
                 if dry is False:
-                    handler(browser, src)
+                    await handler(browser, src)
 
-    def handler_not_found(self, browser, src):
+    async def handler_not_found(self, browser, src):
         print(f"Handler not specified and could not be guess for {src!r}")

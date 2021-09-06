@@ -9,5 +9,5 @@ def parse(string):
 class Script(Element):
     tag = 'script'
 
-    def style(self, *args, dry=False, **kwargs):
-        yield from super().style(*args, **kwargs)
+    async def style(self, *args, dry=False, **kwargs):
+        yield ''

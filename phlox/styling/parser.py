@@ -11,7 +11,7 @@ class Parser(Lexer):
                       | '''
         if len(p) > 2:
             p[0] = nested_update(p[1], p[2])
-        else:
+        elif len(p) > 1:
             p[0] = p[1]
 
     @staticmethod

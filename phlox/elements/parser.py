@@ -36,7 +36,9 @@ class Parser(Lexer):
                    | SELFCLOSINGTAG'''
         if len(p) > 2 or not isinstance(p[1], str):
             kwargs = parse_tag_arguments(p[1])
-            p[0] = Element.create_element(**kwargs, children=p[2])
+            if isinstance(p[2], list):
+                kwargs.update(children=p[2])
+            p[0] = Element.create_element(**kwargs)
         else:
             p[0] = p[1]
 
@@ -46,4 +48,4 @@ class Parser(Lexer):
 
     @staticmethod
     def p_error(token):
-        print(token)
+        pass # print(token)

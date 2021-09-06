@@ -1,23 +1,26 @@
-import colorama
+try:
+    import colorama
 
-from .rendering import render
-from .styling import Style
-from .scripting import Script
-from .elements import (
-    Body,
-    Color,
-    Div,
-    Element,
-    Page,
-    LineDivider,
-    Hidden,
-    Blink,
-    Bold,
-    Dim,
-    Underline
-)
+    from .rendering import render
+    from .styling import Style
+    from .scripting import Script
+    from .elements import (
+        Body,
+        Color,
+        Div,
+        Element,
+        Page,
+        LineDivider,
+        Hidden,
+        Blink,
+        Bold,
+        Dim,
+        Underline
+    )
 
-colorama.init()
+    colorama.init()
+except ImportError as err:
+    print('Running in spite of', err)
 
 __name__ = "Phlox"
 __version__ = "1.0.0"

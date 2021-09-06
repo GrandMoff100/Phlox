@@ -5,5 +5,5 @@ from termcolor import colored
 class Blink(Element):
     tag = 'blink'
 
-    def style(self, *args, **kwargs):
-        yield colored(''.join(super().style(*args, **kwargs)), attrs=['blink'])
+    async def style(self, *args, **kwargs):
+        yield colored(''.join([item async for item in super().style(*args, **kwargs)]), attrs=['blink'])

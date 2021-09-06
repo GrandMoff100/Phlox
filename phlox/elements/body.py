@@ -4,5 +4,7 @@ from .element import Element
 class Body(Element):
     tag = 'body'
 
-    def style(self, *args, **kwargs):
-        pass
+    async def style(self, *args, **kwargs):
+        async for text in super().style(*args, **kwargs):
+            yield text
+        

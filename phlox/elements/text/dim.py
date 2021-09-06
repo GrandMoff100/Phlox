@@ -5,7 +5,8 @@ from colorama import Style
 class Dim(Element):
     tag = 'dim'
 
-    def style(self, *args, **kwargs):
+    async def style(self, *args, **kwargs):
         yield Style.DIM
-        yield from super().style(*args, **kwargs)
+        async for text in super().style(*args, **kwargs):
+            yield text
         yield Style.NORMAL
