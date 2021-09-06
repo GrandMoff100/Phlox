@@ -1,3 +1,4 @@
+import os
 import sys
 import aiofiles
 import aiohttp
@@ -11,7 +12,7 @@ def build_user_agent():
     app = "Phlox"
     version = "1.0.0"
     platform = sys.platform.capitalize()
-    python = "Python {}.{}.{}".forat(
+    python = "Python {}.{}.{}".format(
         sys.version_info.major,
         sys.version_info.minor,
         sys.version_info.micro,
@@ -26,12 +27,13 @@ def build_user_agent():
 
 
 class ResourceFetcher:
-    cookies = {
-        'User-Agent': build_user_agent()
-    }
+    @property
+    def cookies(self):
+        return {
+            'User-Agent': build_user_agent()
+        }
 
-    def __init__(self, cwd, env):
-        self.env = env
+    def __init__(self, cwd):
         self.cwd = cwd
 
     async def request(self, uri):
@@ -61,15 +63,17 @@ class ResourceFetcher:
             await aprint(err, 'reading resource from', str(path))
 
     async def get(self, resource):
-        if (path := Path(self.cwd, resource)).exists():
+        if urlparse(resource).scheme.startswith('http'):
+            return await self.request(resource)
+        elif urlparse(uri := os.path.join(self.cwd, resource)).scheme.startswith('http'):
+            return await self.request(uri)
+        elif (path := Path(self.cwd, resource)).exists():
             return await self.read_file(path)
         elif (path := Path(resource)).exists():
             return await self.read_file(path)
-        elif urlparse(resource).scheme.startswith('http'):
-            return await self.request(resource)
-        else:
-            return b''
 
 
 class Browser:
-    fetcher = ResourceFetcher()
+    def __init__(self, index_path, env):
+        self.env = env
+        self.fetcher = ResourceFetcher(index_path)

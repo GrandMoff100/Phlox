@@ -27,6 +27,7 @@ class Resource(Element):
                 handler = self.handlers.get(_type, self.handler_not_found)
                 if dry is False:
                     await handler(browser, src)
+        yield ''
 
     async def handler_not_found(self, browser, src):
         print(f"Handler not specified and could not be guess for {src!r}")

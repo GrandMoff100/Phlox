@@ -1,30 +1,32 @@
-<page><text color="black" on="red"><bold>My black on red bold text</bold></text><div>
-My div<br/>
-</div><style>
+<page>
+    <resource type="stylesheet" src="style.tss"/>
+    <text color="black" on="red">
+        <bold>My black on red bold text</bold>
+    </text>
+    <div>
+        My div<br/>
+    </div>
+    <style>
 
-div {
-    background: black;
-}
+    div {
+        background: black;
+    }
 
-div {
-    margin: 33px;
-}
+    div {
+        margin: 33px;
+    }
 
-</style><style>
+    </style><style>
 
-div.myclass {
-    padding: 23px;
-}
+    div.myclass {
+        padding: 23px;
+    }
 
-</style><script>
+    </style><script>
 
+    </script>
 
-</script>
+    <line/>
 
-<line></line>
-
-<abc/>
-
-<resource type="stylesheet" src="script.ps"></resource>
-
+    <abc/>
 </page>

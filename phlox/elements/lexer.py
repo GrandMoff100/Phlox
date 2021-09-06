@@ -9,7 +9,8 @@ class Lexer:
         'SELFCLOSINGTAG'
     )
 
-    t_OPENTAG = r'<\w+ ([^>]*)>'
+    t_SELFCLOSINGTAG = r'<\w+([^\/>]*)\/>'
+    t_OPENTAG = r'<\w+([^>]*)>'
     t_CLOSETAG = r'<\/\w+>'
 
     def t_TEXT(t):
@@ -19,13 +20,11 @@ class Lexer:
         t.value = t.value.replace('    ', '')
         return t
 
-    t_SELFCLOSINGTAG = r'<\w+ ([^>]*)\/>'
-
     t_ignore = '\n\t'
 
     @staticmethod
     def t_error(token):
-        pass  # print(token)
+        print('error', token)
 
     @staticmethod
     def lexer():

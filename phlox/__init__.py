@@ -4,7 +4,7 @@ try:
     from .rendering import render
     from .styling import Style
     from .scripting import Script
-    from .elements import (
+    from phlox.elements import (
         Body,
         Color,
         Div,
@@ -15,12 +15,14 @@ try:
         Blink,
         Bold,
         Dim,
-        Underline
+        Underline,
+        Break,
+        Resource
     )
 
     colorama.init()
 except ImportError as err:
-    print('Running in spite of', err)
+    print('Running with imports because of:', err)
 
 __name__ = "Phlox"
 __version__ = "1.0.0"
