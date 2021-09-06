@@ -34,10 +34,11 @@ class Parser(Lexer):
                    | TEXT
                    | OPENTAG CLOSETAG
                    | SELFCLOSINGTAG'''
-        if len(p) > 2 or not isinstance(p[1], str):
+        if re.match(Parser.t_SELFCLOSINGTAG, p[1]) or re.match(Parser.t_OPENTAG, p[1]):
             kwargs = parse_tag_arguments(p[1])
-            if isinstance(p[2], list):
-                kwargs.update(children=p[2])
+            if len(p) > 2:
+                if isinstance(p[2], list):
+                    kwargs.update(children=p[2])
             p[0] = Element.create_element(**kwargs)
         else:
             p[0] = p[1]

@@ -1,3 +1,8 @@
+from urllib.parse import urlparse
+
+
+def is_url(url):
+    return urlparse(url).scheme != ""
 
 def nested_update(old, new):
     for k, v in new.items():

@@ -27,6 +27,7 @@ setup(
         "termcolor",
         "colored",
         "asyncclick",
+        "anyio",
         "aiodns",
         "cchardet",
         "aiohttp",
