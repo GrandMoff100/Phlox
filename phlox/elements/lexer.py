@@ -25,7 +25,7 @@ class Lexer:
 
     @staticmethod
     def t_error(token):
-        pass # print(token)
+        pass  # print(token)
 
     @staticmethod
     def lexer():

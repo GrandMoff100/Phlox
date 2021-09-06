@@ -48,4 +48,4 @@ class Parser(Lexer):
 
     @staticmethod
     def p_error(token):
-        pass # print(token)
+        pass  # print(token)

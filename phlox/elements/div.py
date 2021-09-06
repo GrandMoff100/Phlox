@@ -7,4 +7,3 @@ class Div(Element):
     async def style(self, *args, **kwargs):
         async for text in super().style(*args, **kwargs):
             yield text
-        

@@ -1,8 +1,8 @@
 import sys
-import requests
 import aiofiles
-from aioconsole import aprint
 import aiohttp
+
+from aioconsole import aprint
 from pathlib import Path
 from urllib.parse import urlparse
 
