@@ -42,6 +42,7 @@ async def get_index(browser, index):
         return string.decode('utf-8')
     return string
 
+
 async def render(uri, env=None):
     if env is None:
         env = {}
@@ -52,7 +53,7 @@ async def render(uri, env=None):
     string = await get_index(browser, index)
     print(repr(string))
     page = makepage(string)
-    
+
     await prestyle(page, browser)
     content = await style(page, browser)
     await aioconsole.aprint('Rendering')

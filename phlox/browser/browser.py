@@ -71,7 +71,6 @@ class ResourceFetcher:
             return await self.read_file(path)
         elif (path := Path(resource)).exists():
             return await self.read_file(path)
-        
 
 
 class Browser:
