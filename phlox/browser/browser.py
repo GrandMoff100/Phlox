@@ -7,6 +7,8 @@ from aioconsole import aprint
 from pathlib import Path
 from urllib.parse import urlparse
 
+from .std import StdoutClient, StdinClient
+
 
 def build_user_agent():
     app = "Phlox"
@@ -74,6 +76,9 @@ class ResourceFetcher:
 
 
 class Browser:
+    stdout = StdoutClient()
+    stdin = StdinClient()
+
     def __init__(self, index_path, env):
         self.env = env
         self.fetcher = ResourceFetcher(index_path)
