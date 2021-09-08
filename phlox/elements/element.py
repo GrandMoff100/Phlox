@@ -1,4 +1,6 @@
 from ..utils import StyleTable
+from rich.segment import Segment
+from rich.style import Style
 
 
 class Element:
@@ -30,14 +32,25 @@ class Element:
         cls = Element.element_tags().get(tag, Element)
         return cls(attrs=attrs, children=children)
 
-    async def style(self, *args, **kwargs):
-        await self.inherit_attrs()
-        for child in self.children:
-            if isinstance(child, str):
-                yield child
-            elif isinstance(child, Element):
-                async for text in child.style(*args, **kwargs):
-                    yield text
+    def __rich_console__(self, *args, **kwargs):
+        self.inherit_attrs()
+        for elem in self.children:
+            if isinstance(elem, str):
+                yield Segment(elem, style=Style(
+                    bold=self.attrs.get('bold'),
+                    dim=self.attrs.get('dim'),
+                    italic=self.attrs.get('italic'),
+                    blink=self.attrs.get('blink'),
+                    blink2=self.attrs.get('fast_blink'),
+                    underline=self.attrs.get('underline'),
+                    underline2=self.attrs.get('double_underline'),
+                    color=self.attrs.get('color'),
+                    bgcolor=self.attrs.get('on_color'),
+                    overline=self.attrs.get('overline'),
+                    concealed=self.attrs.get('concealed')
+                ))
+            else:
+                yield elem
 
     @staticmethod
     def registered_elements():
@@ -49,7 +62,7 @@ class Element:
     def element_tags():
         return {subclass.tag: subclass for subclass in Element.registered_elements()}
 
-    async def inherit_attrs(self):
+    def inherit_attrs(self):
         if self.children:
             for child in self.children:
                 if isinstance(child, str):
@@ -57,4 +70,4 @@ class Element:
                 for key in self.attrs:
                     if key not in child.attrs and key not in self.non_inheritable_attrs:
                         child.attrs[key] = self.attrs[key]
-                await child.inherit_attrs()
+                child.inherit_attrs()

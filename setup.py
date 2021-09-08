@@ -23,9 +23,7 @@ setup(
         "phlox.browser"
     ],
     install_requires=[
-        "colorama",
-        "termcolor",
-        "colored",
+        "rich",
         "asyncclick",
         "anyio",
         "aiodns",
