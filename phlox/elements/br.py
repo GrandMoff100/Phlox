@@ -5,5 +5,5 @@ from rich.console import NewLine
 class Break(Element):
     tag = 'br'
 
-    def __rich__(self, console, options):
-        yield NewLine()
+    def __rich__(self):
+        return NewLine()

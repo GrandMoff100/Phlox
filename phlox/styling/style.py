@@ -15,9 +15,9 @@ def parse(string):
 class Style(Element):
     tag = 'style'
 
-    async def style(self, *args, **kwargs):
+    def __rich__(self):
         if self.children:
             string, *_ = self.children
             new_table = parse(string)
             Element.style_table.update(new_table)
-        yield ''
+        return ''

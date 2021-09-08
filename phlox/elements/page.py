@@ -1,5 +1,5 @@
-from .element import Element
+from .div import Div
 
 
-class Page(Element):
+class Page(Div):
     tag = 'page'

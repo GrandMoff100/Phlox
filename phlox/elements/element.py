@@ -32,7 +32,7 @@ class Element:
         cls = Element.element_tags().get(tag, Element)
         return cls(attrs=attrs, children=children)
 
-    def __rich_console__(self, *args, **kwargs):
+    def __rich_console__(self, console, options):
         self.inherit_attrs()
         for elem in self.children:
             if isinstance(elem, str):
@@ -47,7 +47,7 @@ class Element:
                     color=self.attrs.get('color'),
                     bgcolor=self.attrs.get('on_color'),
                     overline=self.attrs.get('overline'),
-                    concealed=self.attrs.get('concealed')
+                    conceal=self.attrs.get('conceal')
                 ))
             else:
                 yield elem

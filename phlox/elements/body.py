@@ -1,5 +1,6 @@
-from .element import Element
+from .div import Div
 
 
-class Body(Element):
+class Body(Div):
     tag = 'body'
+

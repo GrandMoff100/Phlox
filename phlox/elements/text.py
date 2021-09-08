@@ -6,7 +6,7 @@ from rich.style import Style
 class Text(Element):
     tag = 'text'
 
-    def __rich__(self, console, options):
+    def __rich__(self):
         if self.children:
             if isinstance(self.children[0], str):
                 return rText(self.children[0], 
@@ -21,7 +21,7 @@ class Text(Element):
                         color=self.attrs.get('color'),
                         bgcolor=self.attrs.get('on_color'),
                         overline=self.attrs.get('overline'),
-                        concealed=self.attrs.get('concealed')
+                        conceal=self.attrs.get('conceal')
                     ),
                     justify=self.attrs.get('justify'),
                     overflow=self.attrs.get('overflow'),

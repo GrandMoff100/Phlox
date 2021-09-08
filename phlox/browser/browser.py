@@ -1,9 +1,13 @@
 import os
 import sys
+import atexit
 import requests
+import datetime
 
 from pathlib import Path
 from urllib.parse import urlparse
+
+from rich.console import Console
 
 
 def build_user_agent():
@@ -40,7 +44,7 @@ class ResourceFetcher:
     def read_file(self, path):
         try:
             try:
-                async with open(path, 'r') as f:
+                with open(path, 'r') as f:
                     return f.read()
             except (
                 UnicodeDecodeError,
@@ -55,7 +59,7 @@ class ResourceFetcher:
             FileNotFoundError,
             SystemError
         ) as err:
-            print(err, 'reading resource from', str(path))
+            print('[FETCHER]', err, 'while reading resource from', str(path))
 
     def get(self, resource):
         if urlparse(resource).scheme.startswith('http'):
@@ -69,6 +73,44 @@ class ResourceFetcher:
 
 
 class Browser:
+    webpage: Console
+    error_log: Console
+
+    app_data_path = Path(os.path.expanduser('~'), '.phlox')
+    error_log_path = Path(app_data_path, 'error_logs')
+
     def __init__(self, index_path, env):
         self.env = env
+        self.init_app_data()
         self.fetcher = ResourceFetcher(index_path)
+        self.webpage = Console(
+            force_terminal=True,
+            color_system='auto'
+        )
+        self.webpage.browser = self
+        # sys.stderr = Browser.new_error_log_session()
+
+    def new_error_log_session():
+        n = datetime.datetime.now()
+        f = open(
+            Path(
+                Browser.error_log_path,
+                'Phlox_error_log_{}-{}-{}.{}.{}.{}.log'.format(
+                    n.hour,
+                    n.minute,
+                    n.second,
+                    n.month,
+                    n.day,
+                    n.year
+                )
+            ),
+            'w'
+        )
+        atexit.register(f.close)
+        return f
+
+    def init_app_data(self):
+        if not os.path.exists(self.app_data_path):
+            os.mkdir(self.app_data_path)
+        if not os.path.exists(self.error_log_path):
+            os.mkdir(self.error_log_path)
