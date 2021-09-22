@@ -16,7 +16,7 @@ class Resource(Element):
         'script': handle_script
     }
 
-    async def style(self, *args, browser=None, dry=False, **kwargs):
+    def __rich_console__(self, console, options):
         if (src := self.attrs.get('src')):
             if (_type := self.attrs.get('type')) is None:
                 for ext, value in self.types.items():
@@ -25,9 +25,8 @@ class Resource(Element):
                         break
             if _type is not None:
                 handler = self.handlers.get(_type, self.handler_not_found)
-                if dry is False:
-                    await handler(browser, src)
+                handler(console.browser, src)
         yield ''
 
-    async def handler_not_found(self, browser, src):
+    def handler_not_found(self, browser, src):
         print(f"Handler not specified and could not be guess for {src!r}")

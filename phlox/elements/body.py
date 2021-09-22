@@ -1,9 +1,6 @@
-from .element import Element
+from .div import Div
 
 
-class Body(Element):
+class Body(Div):
     tag = 'body'
 
-    async def style(self, *args, **kwargs):
-        async for text in super().style(*args, **kwargs):
-            yield text

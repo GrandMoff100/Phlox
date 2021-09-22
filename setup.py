@@ -15,7 +15,6 @@ setup(
     packages=[
         "phlox",
         "phlox.elements",
-        "phlox.elements.text",
         "phlox.elements.resources",
         "phlox.ply",
         "phlox.scripting",
@@ -23,16 +22,10 @@ setup(
         "phlox.browser"
     ],
     install_requires=[
-        "colorama",
-        "termcolor",
-        "colored",
-        "asyncclick",
-        "anyio",
-        "aiodns",
-        "cchardet",
-        "aiohttp",
-        "aiofiles",
-        "aioconsole"
+        "rich",
+        "click",
+        "requests",
+        "colorama"
     ],
     description=__description__,
     long_description=open("README.md").read(),

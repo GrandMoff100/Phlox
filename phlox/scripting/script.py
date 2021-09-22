@@ -9,5 +9,5 @@ def parse(string):
 class Script(Element):
     tag = 'script'
 
-    async def style(self, *args, dry=False, **kwargs):
-        yield ''
+    def __rich__(self):
+        return ''

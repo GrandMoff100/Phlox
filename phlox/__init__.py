@@ -1,23 +1,18 @@
 try:
     import colorama
 
-    from .rendering import render
+    from .browser import Browser
     from .styling import Style
     from .scripting import Script
-    from phlox.elements import (
+    from .elements import (
         Body,
-        Color,
         Div,
         Element,
         Page,
-        LineDivider,
-        Hidden,
-        Blink,
-        Bold,
-        Dim,
-        Underline,
         Break,
-        Resource
+        Resource,
+        Text,
+        Link
     )
 
     colorama.init()
