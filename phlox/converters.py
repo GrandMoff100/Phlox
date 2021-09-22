@@ -10,10 +10,11 @@ def converters():
     yield Converter
     yield from Converter.__subclasses__()
 
+
 class Converter:
     name = 'Default'
     regex = r'[^\n]+'
-    priotity = 0
+    priority = 0
 
     def convert(self, value: str) -> str:
         return value

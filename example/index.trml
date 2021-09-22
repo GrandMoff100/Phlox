@@ -1,7 +1,8 @@
 <page>
     <resource type="stylesheet" src="style.tss"/>
-    <text color="black" on="red">
-        <bold>My black on red bold text</bold>
+    <resource type="script" src="script.ps"/>
+    <text color="black" on_color="red">
+        My black on red bold text
     </text>
     <div>
         My div<br/>
@@ -25,8 +26,4 @@
     </style><script>
 
     </script>
-
-    <line/>
-
-    <abc/>
 </page>

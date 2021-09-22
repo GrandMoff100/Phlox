@@ -3,11 +3,25 @@ import sys
 import atexit
 import requests
 import datetime
+import contextlib
 
 from pathlib import Path
 from urllib.parse import urlparse
-
 from rich.console import Console
+
+from ..elements.parser import Parser
+
+
+def makepage(string):
+    parser = Parser.parser()
+    return parser.parse(string, lexer=Parser.lexer())
+
+
+def path_info(uri):
+    if (url := urlparse(uri)).scheme != "":
+        if url.path == '' and not uri.endswith('/'):
+            uri += '/'
+    return os.path.split(uri)
 
 
 def build_user_agent():
@@ -35,7 +49,9 @@ class ResourceFetcher:
             'User-Agent': build_user_agent()
         }
 
-    def __init__(self, cwd):
+    def __init__(self, cwd=None):
+        if cwd is None:
+            cwd = os.getcwd()
         self.cwd = cwd
 
     def request(self, uri):
@@ -79,13 +95,14 @@ class Browser:
     app_data_path = Path(os.path.expanduser('~'), '.phlox')
     error_log_path = Path(app_data_path, 'error_logs')
 
-    def __init__(self, index_path, env):
-        self.env = env
+    fetcher = ResourceFetcher()
+
+    def __init__(self):
         self.init_app_data()
-        self.fetcher = ResourceFetcher(index_path)
         self.webpage = Console(
             force_terminal=True,
-            color_system='auto'
+            color_system='truecolor',
+            record=True
         )
         self.webpage.browser = self
         # sys.stderr = Browser.new_error_log_session()
@@ -95,7 +112,7 @@ class Browser:
         f = open(
             Path(
                 Browser.error_log_path,
-                'Phlox_error_log_{}-{}-{}.{}.{}.{}.log'.format(
+                'Phlox_error_log_{}-{}-{}-{}-{}-{}.log'.format(
                     n.hour,
                     n.minute,
                     n.second,
@@ -114,3 +131,19 @@ class Browser:
             os.mkdir(self.app_data_path)
         if not os.path.exists(self.error_log_path):
             os.mkdir(self.error_log_path)
+
+    def get_index(self, index):
+        string = self.fetcher.get(index)
+        if isinstance(string, bytes):
+            return string.decode('utf-8')
+        return string
+
+    @contextlib.contextmanager
+    def render(self, uri):
+        cwd, index = path_info(uri)
+        self.fetcher.cwd = cwd
+        string = self.get_index(index)
+        page = makepage(string)
+        self.webpage.print(page, sep='', end='')
+        yield
+

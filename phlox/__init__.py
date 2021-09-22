@@ -1,7 +1,7 @@
 try:
     import colorama
 
-    from .rendering import render
+    from .browser import Browser
     from .styling import Style
     from .scripting import Script
     from .elements import (
